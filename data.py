@@ -20,11 +20,8 @@ class Tree:
 with open(args.config, 'r') as f:
     params = yaml.load(f, Loader=yaml.FullLoader)
 data_path = params['data']
-if not os.path.exists(data_path):
-    os.mkdir(data_path)
 out_path = params['out']
-if not os.path.exists(out_path):
-    os.mkdir(out_path)
+
 train_label = {}
 test_label = {}
 train_image = {}
