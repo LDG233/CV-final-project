@@ -33,7 +33,7 @@ python data.py --config path_to_data_config_yaml
 
 Bohan Li, Ye Yuan and etc. When Counting Meets HMER: Counting-Aware Network for 
 Handwritten Mathematical Expression Recognition. In Proceedings of the European 
-Conference on Computer Vision (ECCV), 2022.
+Conference on Computer Vision (ECCV), 2022.\\
 Ye Yuan, Xiao Liu, Wondimu Dikubab and etc. Syntax-Aware Network for Handwritten 
 Mathematical Expression Recognition. In Proceedings of IEEE Conference on Computer 
 Vision and Pattern Recognition (CVPR), 2022
