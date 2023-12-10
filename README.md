@@ -23,7 +23,7 @@ python train.py --config path_to_train_config_yaml
 
 ### Dataset
 
-CROHME
+CROHME:
 You can get data at [jbox](https://jbox.sjtu.edu.cn/l/514ltU) and put them in './dataset'
 ```
 python data.py --config path_to_data_config_yaml
