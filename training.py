@@ -106,6 +106,7 @@ def eval(params, model, epoch, eval_loader, writer=None):
                 writer.add_scalar('eval/loss', loss.item(), current_step)
                 writer.add_scalar('eval/word_loss', word_loss.item(), current_step)
                 writer.add_scalar('eval/struct_loss', struct_loss.item(), current_step)
+                writer.add_scalar('eval/count_loss', count_loss.item(), current_step)
                 writer.add_scalar('eval/WordRate', wordRate, current_step)
                 writer.add_scalar('eval/structRate', structRate, current_step)
                 writer.add_scalar('eval/ExpRate', ExpRate, current_step)

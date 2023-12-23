@@ -5,7 +5,7 @@ def gen_counting_label(labels, channel, tag):
     device = labels.device
     counting_labels = torch.zeros((b, channel))
     if tag:
-        ignore = [0, 1, 107, 108, 109, 110]
+        ignore = [0, 1, 108, 109, 114, 115, 116, 117, 118, 119, 120]
     else:
         ignore = []
     for i in range(b):

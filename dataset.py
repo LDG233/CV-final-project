@@ -64,21 +64,26 @@ class HYBTr_Dataset(Dataset):
         batch, channel = len(batch_images), batch_images[0][0].shape[0]
         proper_items = []
         for item in batch_images:
-            if item[0].shape[1] * max_width > self.image_width * self.image_height or item[0].shape[2] * max_height > self.image_width * self.image_height:
+            #if item[0].shape[1] * max_width > self.image_width * self.image_height or item[0].shape[2] * max_height > self.image_width * self.image_height:
+            #    continue
+            #max_height = item[0].shape[1] if item[0].shape[1] > max_height else max_height
+            #max_width = item[0].shape[2] if item[0].shape[2] > max_width else max_width
+            #proper_items.append(item)
+            if item[0].shape[1] > self.image_height or item[0].shape[2] > self.image_width:
                 continue
-            max_height = item[0].shape[1] if item[0].shape[1] > max_height else max_height
-            max_width = item[0].shape[2] if item[0].shape[2] > max_width else max_width
-            max_length = item[1].shape[0] if item[1].shape[0] > max_length else max_length
-            proper_items.append(item)
+            else:
+                max_length = item[1].shape[0] if item[1].shape[0] > max_length else max_length
+                proper_items.append(item)
 
-        images, image_masks = torch.zeros((len(proper_items), channel, max_height, max_width)), torch.zeros(
-            (len(proper_items), 1, max_height, max_width))
+        images, image_masks = torch.zeros((len(proper_items), channel, self.image_height, self.image_width)), torch.zeros(
+            (len(proper_items), 1, self.image_height, self.image_width))
         labels, labels_masks = torch.zeros((len(proper_items), max_length, 11)).long(), torch.zeros(
             (len(proper_items), max_length, 2))
 
         for i in range(len(proper_items)):
-
+            
             _, h, w = proper_items[i][0].shape
+            #print(proper_items[i][0].shape,images[i])
             images[i][:, :h, :w] = proper_items[i][0]
             image_masks[i][:, :h, :w] = 1
 
@@ -88,7 +93,7 @@ class HYBTr_Dataset(Dataset):
 
             for j in range(proper_items[i][1].shape[0]):
                 labels_masks[i][j][1] = proper_items[i][1][j][4:].sum() != 0
-
+        #print(batch,len(proper_items))
         return images, image_masks, labels, labels_masks
 
 

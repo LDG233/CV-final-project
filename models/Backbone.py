@@ -19,14 +19,14 @@ class Backbone(nn.Module):
         self.decoder = getattr(models, params['decoder']['net'])(params=self.params)
         self.cross = nn.CrossEntropyLoss()
         self.bce = nn.BCELoss(reduction='none')
-        self.counting_loss = nn.SmoothL1Loss(reduction='mean')
+        self.counting_loss = nn.PoissonNLLLoss(reduction='mean')
         self.ratio = params['densenet']['ratio'] if params['encoder']['net'] == 'DenseNet' else 16 * params['resnet'][
             'conv1_stride']
 
     def forward(self, images, images_mask, labels, labels_mask, is_train=True):
 
         cnn_features = self.encoder(images)
-        counting_labels = gen_counting_label(labels[:,:,1], self.out_channel, False)
+        counting_labels = gen_counting_label(labels[:,:,1], self.out_channel, True)
         counting_mask = images_mask[:, :, ::self.ratio, ::self.ratio]
         counting_preds1, _ = self.counting_decoder1(cnn_features, counting_mask)
         counting_preds2, _ = self.counting_decoder2(cnn_features, counting_mask)
