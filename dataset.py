@@ -2,7 +2,7 @@ import torch
 import pickle as pkl
 from torch.utils.data import DataLoader, Dataset, RandomSampler, SequentialSampler
 import cv2
-
+import random
 
 class HYBTr_Dataset(Dataset):
 
@@ -13,7 +13,7 @@ class HYBTr_Dataset(Dataset):
         with open(label_path, 'rb') as f:
             self.labels = pkl.load(f)
 
-        self.name_list = list(self.labels.keys())
+        self.name_list = list(self.labels.keys()) if is_train else random.sample(list(self.labels.keys()),1000)
         self.words = words
         self.max_width = params['image_width']
         self.is_train = is_train
@@ -22,7 +22,7 @@ class HYBTr_Dataset(Dataset):
         self.image_width = params['image_width']
 
     def __len__(self):
-        return len(self.labels)
+        return len(self.name_list)
 
     def __getitem__(self, idx):
 
@@ -106,7 +106,7 @@ def get_dataset(params):
     print(f"training data，images: {params['train_image_path']} labels: {params['train_label_path']}")
     print(f"test data，images: {params['eval_image_path']} labels: {params['eval_label_path']}")
     train_dataset = HYBTr_Dataset(params, params['train_image_path'], params['train_label_path'], words)
-    eval_dataset = HYBTr_Dataset(params, params['eval_image_path'], params['eval_label_path'], words)
+    eval_dataset = HYBTr_Dataset(params, params['eval_image_path'], params['eval_label_path'], words, is_train=False)
 
     train_sampler = RandomSampler(train_dataset)
     eval_sampler = RandomSampler(eval_dataset)
